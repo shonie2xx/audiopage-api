@@ -1,0 +1,40 @@
+name: Node.js users_ms CI
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+    - 'users_ms/**'
+
+jobs:
+  build:
+      
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [ 14.x ]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    
+    - name: Intall dependencies
+      working-directory: users_ms
+      run: npm install 
+      
+    - name: Run build
+      working-directory: users_ms
+      run: npm run build --if-present
+    
+    - name: Build and push to Artifact registry
+      working-directory: users_ms
+      run: |
+        docker build -t europe-west4-docker.pkg.dev/influential-rex-351509/audiopage-repo/audiopage-app:latest .
+        docker push europe-west4-docker.pkg.dev/influential-rex-351509/audiopage-repo/audiopage-app:latest
+
+      

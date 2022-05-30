@@ -1,0 +1,105 @@
+version: '3.8'
+services: 
+  
+  rabbitmq:
+      image: rabbitmq:3.8-management-alpine
+      container_name: 'rabbitmq'
+      ports:
+          - 5673:5672
+          - 15673:15672
+      volumes:
+          - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+          - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+  ap-api-gateway:
+      container_name: nginx_container
+      image: nginx:1.21.6
+      ports:
+          - "80:80"
+      volumes:
+            - ./audiopage_api/nginx.conf:/etc/nginx/nginx.conf
+  
+  api-auth:
+    container_name: users_ms
+    image: users_ms
+    build:
+      context: ./users_ms/
+    environment:
+      - PG_DB_NAME=users_db
+      - PG_USERNAME=alex
+      - PG_PASSWORD=12345
+      - PG_HOSTNAME=users_db
+      - PG_PORT=5432
+      - JWT_SECRET=mysecretkey
+    depends_on:
+      - auth_db
+  auth_db:
+    container_name: users_db
+    image: "postgres"
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=alex
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=users_db
+    volumes: 
+      - db:/var/lib/postgresql/data
+  api-books:
+    container_name: books_ms
+    image: books_ms
+    build:
+      context: ./books_ms/
+    command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node app/index.js'
+    environment:
+      - PG_DB_NAME=books_db
+      - PG_USERNAME=alex
+      - PG_PASSWORD=12345
+      - PG_HOSTNAME=books_db
+      - PG_PORT=5432
+      - JWT_SECRET=mysecretkey
+      - AMQP_URL=amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      - db_books
+      - rabbitmq
+  db_books:
+    container_name: books_db
+    image: "postgres"
+    restart: always
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_USER=alex
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=books_db
+  
+  api-library:
+    container_name: library_ms
+    image: library_ms
+    build:
+      context: ./library_ms/
+    command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=40 -- node app/index.js'
+    environment:
+      - PG_DB_NAME=library_db
+      - PG_USERNAME=alex
+      - PG_PASSWORD=12345
+      - PG_HOSTNAME=library_db
+      - PG_PORT=5432
+      - JWT_SECRET=mysecretkey
+      - AMQP_URL=amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      - db_library
+      - rabbitmq
+  db_library:
+    container_name: library_db
+    image: "postgres"
+    restart: always
+    ports:
+      - "5435:5432"
+    environment:
+      - POSTGRES_USER=alex
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=library_db
+
+volumes:
+  db:
+    driver: local

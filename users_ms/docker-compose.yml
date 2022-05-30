@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  users_db:
+    container_name: users_db
+    image: "postgres"
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=alex
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=users_db
+
