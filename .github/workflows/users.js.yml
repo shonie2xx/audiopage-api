@@ -38,11 +38,19 @@ jobs:
       with:
         credentials_json: '${{ secrets.GCP_KEY }}'
         create_credentials_file: true
-
+    
+    # Setting up tools for iteracting with google cloud services
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v0'
+    
+     #Chech google cloud connection
+    - name: 'Use gcloud CLI'
+      run: 'gcloud info'
+      
     - name: Build and push to Artifact registry
       working-directory: users_ms
       run: |
-        gcloud auth login --brief --cred-file=${{ steps.auth.outputs.crendetials_file_path }}
+        gcloud auth login --brief --cred-file=${{ steps.auth.outputs.credentials_file_path }}
         gcloud auth configure-docker europe-west4-docker.pkg.dev
         docker build -t europe-west4-docker.pkg.dev/influential-rex-351509/audiopage-repo/audiopage-app:latest .
         docker push europe-west4-docker.pkg.dev/influential-rex-351509/audiopage-repo/audiopage-app:latest
