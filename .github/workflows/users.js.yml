@@ -35,9 +35,9 @@ jobs:
     - name: Auth
       id: 'auth'
       uses: 'google-github-actions/auth@v0'
-        with:
-         credentials_json: '${{ secrets.GCP_KEY }}'
-         create_credentials_file: true
+      with:
+        credentials_json: '${{ secrets.GCP_KEY }}'
+        create_credentials_file: true
 
     - name: Build and push to Artifact registry
       working-directory: users_ms
