@@ -39,4 +39,5 @@ app.use('/api/auth', require('./routes/authroutes'));
     } catch (error) {
       console.log(error);
     }
+    
   })()
