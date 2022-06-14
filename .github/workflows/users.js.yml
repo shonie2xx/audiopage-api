@@ -62,7 +62,7 @@ jobs:
       working-directory: users_ms
       run: 
         docker push europe-west4-docker.pkg.dev/influential-rex-351509/audiopage-repo/audiopage-app:latest
-    
+        
     # Set up kustomize
     - name: Set up Kustomize
       run: |-
@@ -72,10 +72,9 @@ jobs:
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
       run: |-
-        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/influential-rex-351509/audiopage-app:latest
-        ./kustomize build . | kubectl apply -f -
+        kubectl edit -k set image gcr.io/influential-rex-351509/audiopage-app:latest=gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA
+        kubectl build -k . | kubectl apply -f -
         kubectl rollout status deployment/users-api
         kubectl get services -o wide
-
 
     
