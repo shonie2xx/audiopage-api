@@ -5,6 +5,10 @@ const Op = db.Sequelize.Op;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
+exports.getHealthy = async (req, res, next) => {
+  return res.status(200).send("Healthy");
+}
+
 exports.signup = async (req, res) => {
   // Save User to Database
   try {

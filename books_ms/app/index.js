@@ -30,11 +30,14 @@ app.use('/api/books', require('./routes/audiobookroutes'));
     await sequelize.sync(
       { force: false }
     );
-    app.listen(8000);
     
+    app.listen(8000);
     await amqp_server.replyto(); 
 
   } catch (error) {
     console.error(error);
   }
 })()
+
+
+

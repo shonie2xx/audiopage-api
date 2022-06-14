@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /api/auth
+        pathType: Prefix
+        backend:
+          service:
+            name: users-api-service
+            port:
+              number: 80
+      # - path: /api/books
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: books-api-service
+      #       port:
+      #         number: 80
+      # - path: /api/library
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: library-api-4qc5k
+      #       port:
+      #         number: 80
+    

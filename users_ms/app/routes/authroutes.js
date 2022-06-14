@@ -3,6 +3,7 @@ const controller = require("../controllers/auth_controller.js");
 const router = require('express').Router();
 
 router
+  .get("/health", controller.getHealthy)
   .post("/signup",[verifySignUp.checkDuplicateUsername,verifySignUp.checkRolesExisted], controller.signup)
   .post("/signin",controller.signin)
   .post("/signout", controller.signout);

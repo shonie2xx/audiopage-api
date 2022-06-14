@@ -1,0 +1,73 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "users-api"
+  namespace: "default"
+  labels:
+    app: "users-api"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "users-api"
+  template:
+    metadata:
+      labels:
+        app: "users-api"
+    spec:
+      containers:
+      - name: "users-api"
+        image: "europe-west4-docker.pkg.dev/influential-rex-351509/audiopage-repo/users-api:latest"
+        env:
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              key: JWT_SECRET
+              name: usersjs-env
+              optional: false
+        - name: PG_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              key: PG_DB_NAME
+              name: usersjs-env
+              optional: false
+        - name: PG_HOSTNAME
+          valueFrom:
+            secretKeyRef:
+              key: PG_HOSTNAME
+              name: usersjs-env
+              optional: false
+        - name: PG_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: PG_PASSWORD
+              name: usersjs-env
+              optional: false
+        - name: PG_PORT
+          valueFrom:
+            secretKeyRef:
+              key: PG_PORT
+              name: usersjs-env
+              optional: false
+        - name: PG_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: PG_USERNAME
+              name: usersjs-env
+              optional: false
+        ports: 
+        - containerPort: 80
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-api-service
+spec:
+  selector:
+    app: users-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer

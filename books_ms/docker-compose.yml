@@ -1,20 +1,20 @@
 version: '3.8'
 
 services:
-  books_ms:
-    build:
-      context: .
-    ports: 
-      - "3002:3002"
-    environment: 
-      - EXTERNAL_PORT=3002
-      - PG_DB_NAME=books_db
-      - PG_USERNAME=alex
-      - PG_PASSWORD=12345
-      - PG_HOSTNAME=books_db
-      - PG_PORT=5432
-    depends_on: 
-      - books_db
+  # books_ms:
+  #   build:
+  #     context: .
+  #   ports: 
+  #     - "3002:3002"
+  #   environment: 
+  #     - EXTERNAL_PORT=3002
+  #     - PG_DB_NAME=books_db
+  #     - PG_USERNAME=alex
+  #     - PG_PASSWORD=12345
+  #     - PG_HOSTNAME=books_db
+  #     - PG_PORT=5432
+  #   depends_on: 
+  #     - books_db
   books_db:
     image: "postgres"
     restart: always
