@@ -73,8 +73,8 @@ jobs:
     - name: Deploy
       run: |-
         # replacing the image name in the k8s template
-        ./kustomize  edit set image LOCATION-docker.pkg.dev/PROJECT_ID/REPOSITORY/IMAGE:TAG=europe-west4-docker.pkg.dev/influential-rex-351509/audiopage-repo/users-api:${{ github.sha }}
-        ./kustomize  build ./kubernetes | kubectl apply -f -
+        kubectl edit set image LOCATION-docker.pkg.dev/PROJECT_ID/REPOSITORY/IMAGE:TAG=europe-west4-docker.pkg.dev/influential-rex-351509/audiopage-repo/users-api:${{ github.sha }}
+        kubectl build -k ../kubernetes | kubectl apply -f -
         kubectl rollout status deployment/users-api
         kubectl get services -o wide
 
