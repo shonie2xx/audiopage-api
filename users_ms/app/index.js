@@ -28,6 +28,9 @@ app.use('/api/users', require('./routes/users'));
 
 app.use('/api/auth', require('./routes/authroutes'));
 
+app.use('/', require('./routes/healthroute'));
+
+
 (async () => {
     try {
       await sequelize.sync(
