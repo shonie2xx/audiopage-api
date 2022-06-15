@@ -53,14 +53,6 @@ jobs:
         gcloud auth login --brief --cred-file=${{ steps.auth.outputs.credentials_file_path }}
         gcloud auth configure-docker europe-west4-docker.pkg.dev
   
-    # # Get the GKE credentials so we can deploy to the cluster
-    # - name: Set up GKE credentials
-    #   working-directory: users_ms
-    #   uses: google-github-actions/get-gke-credentials@v0
-    #   with:
-    #     cluster_name: audiopage-cluster
-    #     location: europe-west4-c
-
     - name: Build IMAGE
       working-directory: users_ms
       run: 
@@ -71,20 +63,8 @@ jobs:
       run: 
         docker push europe-west4-docker.pkg.dev/influential-rex-351509/audiopage-repo/users-api:${{ github.sha }}
 
-    
-    # Set up kustomize
-    - name: Set up Kustomize
-      working-directory: users_ms
-      run: |-
-        curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
-        chmod u+x ./kustomize 
-
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
       working-directory: users_ms
-      run: |-
-        # replacing the image name in the k8s template
-        ./kustomize edit set image LOCATION-docker.pkg.dev/PROJECT_ID/REPOSITORY/IMAGE:TAG=europe-west4-docker.pkg.dev/influential-rex-351509/audiopage-repo/users-api:${{ github.sha }}
-        ./kustomize build kubernetes/kustomization.yaml | kubectl apply -f -
-        kubectl rollout status deployment/users-api
-        kubectl get services -o wide
+      run:
+        kubectl set image deployment/users-api users-api=europe-west4-docker.pkg.dev/influential-rex-351509/audiopage-repo/users-api:${{ github.sha }}
