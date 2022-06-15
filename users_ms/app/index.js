@@ -24,8 +24,7 @@ app.use(
   })
 )
 
-app.use('/api/users', require('./routes/users'));
-
+app.use('/api/users', require('./routes/users'))
 app.use('/api/auth', require('./routes/authroutes'));
 
 (async () => {
