@@ -66,5 +66,7 @@ jobs:
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
       working-directory: users_ms
-      run:
+      run: |
+        gcloud container clusters get-credentials audiopage-cluster --zone europe-west4-c
+        sleep 5s
         kubectl set image deployment/users-api users-api=europe-west4-docker.pkg.dev/influential-rex-351509/audiopage-repo/users-api:${{ github.sha }}
