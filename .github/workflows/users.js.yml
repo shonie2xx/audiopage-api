@@ -53,13 +53,13 @@ jobs:
         gcloud auth login --brief --cred-file=${{ steps.auth.outputs.credentials_file_path }}
         gcloud auth configure-docker europe-west4-docker.pkg.dev
   
-    # Get the GKE credentials so we can deploy to the cluster
-    - name: Set up GKE credentials
-      working-directory: users_ms
-      uses: google-github-actions/get-gke-credentials@v0
-      with:
-        cluster_name: audiopage-cluster
-        location: europe-west4-c
+    # # Get the GKE credentials so we can deploy to the cluster
+    # - name: Set up GKE credentials
+    #   working-directory: users_ms
+    #   uses: google-github-actions/get-gke-credentials@v0
+    #   with:
+    #     cluster_name: audiopage-cluster
+    #     location: europe-west4-c
 
     - name: Build IMAGE
       working-directory: users_ms
