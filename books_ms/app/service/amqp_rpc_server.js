@@ -1,7 +1,5 @@
 const amqp = require('amqplib/callback_api');
 
-//require('dotenv').config();
-
 const amqpUrl = process.env.AMQP_URL || 'amqp://guest:guest@rabbitmq:5672';
 
 async function replyto() {

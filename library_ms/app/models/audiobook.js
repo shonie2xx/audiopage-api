@@ -1,7 +1,8 @@
 module.exports = (sequelize, Sequelize) => {
     const Audiobook = sequelize.define('audiobooks', {
         publisherId: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.UUID,
+            defaultValue: Sequelize.UUIDV4,
             allowNull: false
         },
         author: {

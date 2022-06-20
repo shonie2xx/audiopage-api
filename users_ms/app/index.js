@@ -34,7 +34,7 @@ app.use('/api/auth', require('./routes/authroutes'));
         { force: false }
       );
       console.log("db sync complete ");
-      app.listen(8000);
+      app.listen(8001);
     } catch (error) {
       console.log(error);
     }

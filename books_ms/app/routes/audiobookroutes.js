@@ -4,9 +4,9 @@ const router = require('express').Router();
 
 router
   .get("/", controller.getAll)
+  .get("/mybooks", authJwt.verifyToken, controller.getMyPublished)
   .get("/:id", authJwt.verifyToken, controller.getOne)
-  .get("/mybooks/all", authJwt.verifyToken, controller.getMyPublished)
-  .post("/mybooks/post", authJwt.verifyToken, controller.createOne)
+  .post("/mybooks", authJwt.verifyToken, controller.createOne)
   .delete("/:id", controller.deleteOne)
   .put("/:id", authJwt.verifyToken, controller.updateOne)
   .post("/buy/:id", authJwt.verifyToken, controller.buyOne);

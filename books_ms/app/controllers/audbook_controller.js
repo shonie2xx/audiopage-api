@@ -35,7 +35,6 @@ exports.createOne = async (req, res, next) => {
             author: req.body.author,
             description: req.body.description,
             price: req.body.price
-            //,buyersId: [0]
         }
         try {
             const item = await Audiobook.create(audiobook_model);
