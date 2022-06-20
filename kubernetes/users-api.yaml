@@ -5,11 +5,7 @@ metadata:
   namespace: "default"
   labels:
     app: "users-api"
-spec:
-  readinessProbe:
-    httpGet:
-      path: /ping
-      port: 4001    
+spec: 
   replicas: 3
   selector:
     matchLabels:
@@ -22,6 +18,10 @@ spec:
       containers:
       - name: "users-api"
         image: "europe-west4-docker.pkg.dev/influential-rex-351509/audiopage-repo/users-api:latest"
+        readinessProbe:
+          httpGet:
+            path: /api/auth/
+            port: 80
         env:
         - name: JWT_SECRET
           valueFrom:

@@ -1,4 +1,4 @@
-name: Node.js users_ms CI
+name: Node.js users_ms CI/CD
 
 on:
   push:

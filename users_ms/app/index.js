@@ -4,7 +4,8 @@ const cookieSession = require('cookie-session');
 const sequelize = require('./utils/database');
 //const User = require('./models/users');
 
-const db = require('./models');
+//const db = require('./models');
+
 const app = express();
 
 app.use(express.json());
@@ -28,7 +29,6 @@ app.use('/api/users', require('./routes/users'));
 
 app.use('/api/auth', require('./routes/authroutes'));
 
-app.use('/', require('./routes/healthroute'));
 
 
 (async () => {

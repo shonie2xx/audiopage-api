@@ -10,14 +10,12 @@ const { Op } = require("sequelize");
 
 
 async function consume() {
-  const connection = await amqplib.connect(amqpUrl, "heartbeat=60")
-
-
+  const connection = await amqplib.connect(amqpUrl, "heartbeat=60");
   const channel = await connection.createChannel();
+
   channel.prefetch(10);
 
   process.once('SIGINT', async () => {
-    console.log('got sigint, closing connection');
     await channel.close();
     await connection.close();
     process.exit(0);
@@ -29,7 +27,7 @@ async function consume() {
 
   await channel.consume(queue, async (msg) => {
     await processMessage(msg);
-    await channel.ack(msg);
+    channel.ack(msg);
   }),
   {
     noAck: false,

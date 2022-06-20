@@ -13,10 +13,10 @@ spec:
             name: users-api-service
             port:
               number: 80
-      - path: /api/books
-        pathType: Prefix
-        backend:
-          service:
-            name: books-api-service
-            port:
-              number: 80
+      # - path: /api/books
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: books-api-service
+      #       port:
+      #         number: 80
