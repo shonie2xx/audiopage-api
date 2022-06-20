@@ -17,11 +17,7 @@ spec:
     spec:
       containers:
       - name: "users-api"
-        image: "europe-west4-docker.pkg.dev/influential-rex-351509/audiopage-repo/users-api:f103a54c2535b3f26fef8ac2bc0154c49935b021"
-        readinessProbe:
-          httpGet:
-            path: /api/auth/
-            port: 80
+        image: "europe-west4-docker.pkg.dev/influential-rex-351509/audiopage-repo/users-api:49fc4e6f4049f9c7c5303c979c32e0b6f7845cf8"
         env:
         - name: JWT_SECRET
           valueFrom:
