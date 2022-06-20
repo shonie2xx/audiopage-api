@@ -1,21 +1,21 @@
 version: '3.8'
 
 services:
-  library_ms:
-    build:
-      context: ../library_ms
-      dockerfile: Dockerfile
-    ports: 
-      - "3003:3003"
-    environment: 
-      - EXTERNAL_PORT=3003
-      - PG_DB_NAME=library_db
-      - PG_USERNAME=alex
-      - PG_PASSWORD=12345
-      - PG_HOSTNAME=library_db
-      - PG_PORT=5432
-    depends_on: 
-      - library_db
+  # library_ms:
+  #   build:
+  #     context: ../library_ms
+  #     dockerfile: Dockerfile
+  #   ports: 
+  #     - "3003:3003"
+  #   environment: 
+  #     - EXTERNAL_PORT=3003
+  #     - PG_DB_NAME=library_db
+  #     - PG_USERNAME=alex
+  #     - PG_PASSWORD=12345
+  #     - PG_HOSTNAME=library_db
+  #     - PG_PORT=5432
+  #   depends_on: 
+  #     - library_db
   library_db:
     image: "postgres"
     restart: always

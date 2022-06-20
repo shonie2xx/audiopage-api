@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: "users-api"
-        image: "europe-west4-docker.pkg.dev/influential-rex-351509/audiopage-repo/users-api:49fc4e6f4049f9c7c5303c979c32e0b6f7845cf8"
+        image: "europe-west4-docker.pkg.dev/influential-rex-351509/audiopage-repo/users-api:d280698c6bdbb22c1672b016314e538cb067cd0e"
         env:
         - name: JWT_SECRET
           valueFrom:
@@ -68,5 +68,5 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: 8000
   type: LoadBalancer

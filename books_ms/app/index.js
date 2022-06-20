@@ -24,7 +24,6 @@ app.use(
 
 app.use('/api/books', require('./routes/audiobookroutes'));
 
-
 (async () => {
   try {
     await sequelize.sync(
